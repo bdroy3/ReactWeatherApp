@@ -20387,7 +20387,7 @@
 
 	    _this.LocationClick = function () {
 	      var myLocation = prompt("Please enter your five-digit code ZIP code!");
-	      var isnum = new RegExp(/^[0-9]+jQuery/);
+	      var isnum = new RegExp(/^[0-9]+$/);
 	      console.log(isnum.test(myLocation));
 	      while ((myLocation.length === 5 && isnum.test(myLocation)) === false) {
 	        if (isnum.test(myLocation) === false) {
