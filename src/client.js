@@ -4,6 +4,6 @@ import Weather from './components/Weather';
 
 
 ReactDOM.render(
-  <Weather theme="light" />,
+  <Weather theme="day" />,
   document.getElementById('root')
 );
