@@ -38,4 +38,13 @@ table {
   border-radius: 10px;
   padding-top: 10px;
   padding-bottom: 10px;
+  box-shadow: 10px 10px #0099ff;
+  /*box-shadow: 10px 10px #30d8ff;*/
+}
+
+div {
+  height: 2px;
+  width: 2px;
+  background-color: #ccccff;
+  border: 1px solid #aaaaff;
 }
