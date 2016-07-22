@@ -135,14 +135,27 @@ class Weather extends Component {
     const tempTheme = css(styles.temp);
     const refreshTheme = css(styles.refresh);
     return (
-      <table className={mainTheme} width="224px"><tbody>
-        <tr className={locTheme} id='loc'>{this.state.myLocation}</tr>
-        <tr><textarea rows="1" cols="5" id="locField" onChange={this.handleLocFieldChange}>{this.state.myLocation}</textarea></tr>
-        <tr><img src="http://www.hotelesposeidon.com/sites/default/files/sun.png" height="128" width="128"/></tr>
-        <tr className={tempTheme} onClick={this.TempClick}>{this.state.temp} º C</tr>
-        <tr className={refreshTheme} id='refresh' onClick={this.getInfo}>refresh</tr>
-      </tbody></table>
+      <div id="main">
+        <p id="loc">{this.state.myLocation}</p>
+        <textarea rows="1" cols="5" id="locField" onChange={this.handleLocFieldChange}>{this.state.myLocation}</textarea><br/>
+        <img src="http://www.hotelesposeidon.com/sites/default/files/sun.png" height="128" width="128"/>
+        <p id="temptext" onClick={this.TempClick}>{this.state.temp} º C</p>
+        <p id='refresh' onClick={this.getInfo}>refresh</p>
+      </div>
     );
+
+    /*
+    <table className={mainTheme} width="224px"><tbody>
+      <tr className={locTheme} id='loc'>{this.state.myLocation}</tr>
+      <tr><textarea rows="1" cols="5" id="locField" onChange={this.handleLocFieldChange}>{this.state.myLocation}</textarea></tr>
+      <tr><img src="http://www.hotelesposeidon.com/sites/default/files/sun.png" height="128" width="128"/></tr>
+      <tr className={tempTheme} onClick={this.TempClick}>{this.state.temp} º C</tr>
+      <tr className={refreshTheme} id='refresh' onClick={this.getInfo}>refresh</tr>
+    </tbody></table>
+    */
+
+
+
     //<tr><img src="http://www.hotelesposeidon.com/sites/default/files/sun.png" height="128" width="128"/></tr>
     //<tr><canvas width="128" height="32"></canvas></tr>
     //onClick={this.LocationClick}
@@ -165,7 +178,10 @@ $(document).ready(function(){
   $('textarea').focus(function(){
     $('textarea').css('outline-color','white');
   });
-  $('refresh').hover(function(){
-    $('refresh').css('outline-color','white');
-  });
+  /*$.simpleWeather({
+    location: 'bangor, maine',
+    unit: 'f',
+    success: function(weather) { console.log("you done good") },
+    error: function(error) { console.log("you done screwed up") }
+  });*/
 });
