@@ -6,11 +6,15 @@ const styles = StyleSheet.create({
       //backgroundColor: "#10B0FF",
       color:"white",
       fontSize: 20,
-      width: 224,
+      margin: "10px",
+      width: 200,
       textAlign: "center",
       //fontFamily: "Roboto",
       fontFamily: "Arial Rounded MT Bold",
       //fontFamily: "Monaco",
+      /*':hover': {
+        color: "red",
+      }*/
     },
   dusk: {
       backgroundColor: "#191970",
@@ -24,11 +28,10 @@ const styles = StyleSheet.create({
         fontSize: 50,
     },
   refresh: {
-        fontSize: 5,
-        color: "red",
+        fontSize: 15,
     },
   temp: {
-        fontSize: 30,
+        fontSize: 40,
     },
 });
 

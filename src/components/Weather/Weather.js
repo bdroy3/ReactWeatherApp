@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { css } from 'aphrodite';
 import styles from './Weather.styles.js';
-import jQuery from "jQuery";
+import $ from "jQuery";
 
 
 class Weather extends Component {
@@ -22,33 +22,50 @@ class Weather extends Component {
     });
   }
 
-  LocationClick = () => {
-    var myLocation = prompt("Please enter your five-digit code ZIP code!");
-    var isnum = new RegExp(/^[0-9]+$/)
-    console.log(isnum.test(myLocation));
-    while((myLocation.length===5 && isnum.test(myLocation)) === false){
-      if (isnum.test(myLocation)===false)
-      {
-        alert("You need to enter a number!!");
-      }
-      else if (myLocation.length>5)
-      {
-        alert("That ZIP code is too long!");
-      }
-      else
-      {
-        alert("That ZIP code is too short!");
-      }
-      var myLocation = prompt("Enter your ZIP code");
+  /*handleLocChange = () => {
+    var myLocation = document.getElementById('locField').value;
+    if ((myLocation > 1 || myLocation < 1) ===false)
+    {
+      alert("You need to enter a number!!");
     }
-    if (myLocation === "" || myLocation === null) {
+    else if (myLocation.length>5)
+    {
+      alert("That ZIP code is too long!");
+    }
+    else if (myLocation.length<5)
+    {
+      alert("That ZIP code is too short!");
+    }
+    else if (myLocation === "" || myLocation === null) {
       myLocation = "04469";
     }
+    else {
+      this.setState({
+        myLocation:myLocation,
+      });
+      //this.getInfo();
+    }
+  }*/
 
-    this.setState({
-      myLocation:myLocation,
-    });
-    this.getInfo();
+  handleLocFieldChange = () => {
+    var myLocation = document.getElementById('locField').value;
+    if (myLocation.length===5)
+    {
+      if ((myLocation > 1 || myLocation < 1) ===false)
+      {
+        alert("You need to enter a five-digit ZIP code!");
+      }
+      else if (myLocation === "" || myLocation === null) {
+        myLocation = "04469";
+      }
+      else {
+        this.setState({
+          myLocation:myLocation,
+        });
+        $('textarea').toggleClass("hiddenThing");
+        //this.getInfo();
+      }
+    }
   }
 
   TempClick = () => {
@@ -59,9 +76,8 @@ class Weather extends Component {
   }
 
   getInfo = () => {
-
     // METHOD 1
-    jQuery.ajax({
+    $.ajax({
       type: 'GET',
       url: 'https://api.forecast.io/forecast/1f5f0d431a04bf2445a7de80613696b3/68.6719,44.8831',
       async: true,
@@ -117,20 +133,19 @@ class Weather extends Component {
     const mainTheme = isNight === true ? css(styles.dusk) : css(styles.day);
     const locTheme = css(styles.loc);
     const tempTheme = css(styles.temp);
-    const refreshTheme = css(styles.refesh);
+    const refreshTheme = css(styles.refresh);
     return (
       <table className={mainTheme} width="224px"><tbody>
-        <tr><canvas width="128" height="32"></canvas></tr>
-        <tr className={locTheme} onClick={this.LocationClick}>{this.state.myLocation}</tr>
-        <tr className={refreshTheme} onClick={this.getInfo}>refresh</tr>
-        <tr><canvas width="128" height="32"></canvas></tr>
+        <tr className={locTheme} id='loc'>{this.state.myLocation}</tr>
+        <tr><textarea rows="1" cols="5" id="locField" onChange={this.handleLocFieldChange}>{this.state.myLocation}</textarea></tr>
         <tr><img src="http://www.hotelesposeidon.com/sites/default/files/sun.png" height="128" width="128"/></tr>
-        <tr><canvas width="128" height="32"></canvas></tr>
         <tr className={tempTheme} onClick={this.TempClick}>{this.state.temp} º C</tr>
-        <tr><canvas width="128" height="32"></canvas></tr>
+        <tr className={refreshTheme} id='refresh' onClick={this.getInfo}>refresh</tr>
       </tbody></table>
     );
     //<tr><img src="http://www.hotelesposeidon.com/sites/default/files/sun.png" height="128" width="128"/></tr>
+    //<tr><canvas width="128" height="32"></canvas></tr>
+    //onClick={this.LocationClick}
   }
 }
 
@@ -142,4 +157,15 @@ const WeatherTitle = ({title}) => <h2>{title}</h2>;
 
 export default Weather;
 
-//responseJSON = xmlToJson(response);
+$(document).ready(function(){
+  $('textarea').toggleClass("hiddenThing");
+  $('#loc').click(function(){
+    $('textarea').toggleClass("hiddenThing");
+  });
+  $('textarea').focus(function(){
+    $('textarea').css('outline-color','white');
+  });
+  $('refresh').hover(function(){
+    $('refresh').css('outline-color','white');
+  });
+});
