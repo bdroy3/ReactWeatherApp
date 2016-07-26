@@ -5,15 +5,19 @@
 #loc {
   cursor: pointer;
   font-size: 40px;
-  position: relative;
 }
 
 p {
   margin: 10px;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -khtml-user-select: none;    /* Konqueror */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;       /* Internet Explorer/Edge */
 }
 
 img {
-  margin: -10px;
+  margin: 0px;
 }
 
 #refresh {
@@ -21,14 +25,14 @@ img {
   font-size: 20px;
 }
 
-
-.hiddenThing {
-  visibility:hidden;
-}
-
 #temptext{
   font-size: 40px;
   margin-top: 20px;
+}
+
+#tempwrapper {
+  height: 50px;
+  width: 140px;
 }
 
 #main {
@@ -54,7 +58,9 @@ img {
   border: 2px solid #00afee;
   border-radius: 5px;
   color: white;
-  margin-top: -100px;
+  margin-top: -10px;
+  resize: none;
+  outline-color: white;
 }
 
 #root {

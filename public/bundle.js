@@ -20369,8 +20369,27 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	/*UNDO MARK*/
+
 	var Weather = function (_Component) {
 	  _inherits(Weather, _Component);
+
+	  _createClass(Weather, [{
+	    key: 'componentDidMount',
+
+
+	    // This is Async yo!!! Nysnc is my fav band. Jt rulez!!!
+	    value: function componentDidMount() {
+	      document.getElementById('locField').style.visibility = "hidden";
+	      this.getInfo();
+	      // request stuffz
+
+	      // once you get stuff from callback
+
+	      /*this.setState({}, () => {
+	       });*/
+	    }
+	  }]);
 
 	  function Weather(props) {
 	    _classCallCheck(this, Weather);
@@ -20385,114 +20404,103 @@
 	      });
 	    };
 
+	    _this.handleLocClick = function () {
+	      var fieldElement = document.getElementById('locField');
+	      fieldElement.style.visibility = fieldElement.style.visibility === "hidden" ? null : "hidden";
+	    };
+
 	    _this.handleLocFieldChange = function () {
 	      var myLocation = document.getElementById('locField').value;
-	      if (myLocation.length === 5) {
-	        if ((myLocation > 1 || myLocation < 1) === false) {
-	          alert("You need to enter a five-digit ZIP code!");
-	        } else if (myLocation === "" || myLocation === null) {
-	          myLocation = "04469";
-	        } else {
-	          _this.setState({
-	            myLocation: myLocation
-	          });
-	          (0, _jQuery2.default)('textarea').toggleClass("hiddenThing");
-	          //this.getInfo();
-	        }
+	      if (myLocation.length > 5) {
+	        document.getElementById('locField').style.outlineColor = "red";
+	      } else if (myLocation.length < 5) {
+	        document.getElementById('locField').style.outlineColor = "#b3edff";
+	      } else if ((myLocation > 1 || myLocation < 1) === false) {
+	        document.getElementById('locField').style.outlineColor = "red";
+	      } else if (myLocation.length === 5) {
+	        document.getElementById('locField').style.visibility = "hidden";
+	        document.getElementById('locField').style.outlineColor = "white";
+	        console.log("HLFC 1-" + myLocation);
+	        _this.setState({
+	          myLocation: myLocation
+	        });
+	        console.log("HLFC 2-" + _this.state.myLocation);
+	        _this.getInfo();
 	      }
 	    };
 
 	    _this.TempClick = function () {
-	      var newTemp = prompt("new temp");
+	      var tType = _this.state.tempType === "C" ? "F" : "C";
+	      var tempCalc = 0;
+	      if (tType === "C") {
+	        tempCalc = ((_this.state.temp - 32) / 1.8).toFixed(0);
+	      } else if (tType === "F") {
+	        tempCalc = (_this.state.temp * 1.8 + 32).toFixed(0);
+	      }
 	      _this.setState({
-	        temp: newTemp
+	        temp: tempCalc,
+	        tempType: tType
 	      });
 	    };
 
 	    _this.getInfo = function () {
 	      // METHOD 1
+	      var resp = 0;
+	      console.log("GI-" + _this.state.myLocation);
 	      _jQuery2.default.ajax({
 	        type: 'GET',
-	        url: 'https://api.forecast.io/forecast/1f5f0d431a04bf2445a7de80613696b3/68.6719,44.8831',
-	        async: true,
+	        url: 'http://api.openweathermap.org/data/2.5/weather?q=' + _this.state.myLocation + '&APPID=915c38a0592ead8651fde1713cceec09',
+	        async: false,
 	        dataType: 'json',
 	        success: function success(response) {
-	          console.log(response);
+	          resp = response;
+	          /*console.log("loc- "+resp.coord.lat);
+	          console.log("WID- "+resp.weather[0].id);
+	          console.log("temp- "+resp.main.temp);
+	          console.log("tempC- "+(Math.trunc(resp.main.temp)-273));
+	          console.log("tempF- "+Math.trunc(((resp.main.temp-273)*1.8)+32));*/
 	        },
 	        error: function error(_error) {
 	          console.log('ERROR:', _error);
 	        }
 	      });
-
-	      //METHOD 2
-	      /*jQuery.ajax({
-	        type: "GET",
-	        url: "http://api.forecast.io/forecast/1f5f0d431a04bf2445a7de80613696b3/68.6719,44.8831",
-	        async: false,
-	        dataType: 'JSONP',
-	        xhrFields: {
-	        withCredentials: true
-	        },
-	        timeout: 15000,
-	        success: function(data){
-	          console.log(data);
-	        },
-	        error: function(resultFail) {
-	          alert("error: " + resultFail);
-	        }
-	      });*/
-
-	      //METHOD 3
-	      /*
-	      jQuery.getJSON("http://api.forecast.io/forecast/1f5f0d431a04bf2445a7de80613696b3/68.6719,44.8831", function (data) {
-	        console.log(data);
-	      });*/
-
-	      //METHOD 4
-	      /*jQuery.get("http://api.forecast.io/forecast/1f5f0d431a04bf2445a7de80613696b3/68.6719,44.8831", function(data){
-	          console.log(data);
-	      });*/
-
-	      _this.setState({
-	        currentInfo: "FILLERTEXT"
-	      });
-	      console.log(_this.state);
+	      if (_this.state.tempType === "C") {
+	        _this.setState({
+	          temp: Math.trunc(resp.main.temp) - 273
+	        });
+	      } else {
+	        var tempCalc = (resp.main.temp - 273) * 1.8 + 32;
+	        _this.setState({
+	          temp: Math.trunc(tempCalc)
+	        });
+	      }
 	    };
 
 	    _this.state = {
 	      theme: props.theme,
 	      myLocation: "04469",
-	      temp: 18
+	      temp: 18,
+	      fieldDisplay: "hidden",
+	      tempType: "C"
 	    };
 	    return _this;
 	  }
 
-	  /*handleLocChange = () => {
-	    var myLocation = document.getElementById('locField').value;
-	    if ((myLocation > 1 || myLocation < 1) ===false)
-	    {
-	      alert("You need to enter a number!!");
-	    }
-	    else if (myLocation.length>5)
-	    {
-	      alert("That ZIP code is too long!");
-	    }
-	    else if (myLocation.length<5)
-	    {
-	      alert("That ZIP code is too short!");
-	    }
-	    else if (myLocation === "" || myLocation === null) {
-	      myLocation = "04469";
-	    }
-	    else {
-	      this.setState({
-	        myLocation:myLocation,
-	      });
-	      //this.getInfo();
-	    }
-	  }*/
-
 	  _createClass(Weather, [{
+	    key: 'componentDidUpdate',
+	    value: function componentDidUpdate() {
+	      if (this.state.temp >= 999) {
+	        document.getElementById('temptext').style.fontSize = "20px";
+	        document.getElementById('temptext').style.paddingTop = "15px";
+	      } else if (this.state.temp >= 99) {
+	        document.getElementById('temptext').style.fontSize = "35px";
+	        document.getElementById('temptext').style.paddingTop = "5px";
+	      } else {
+	        document.getElementById('temptext').style.fontSize = "40px";
+	        document.getElementById('temptext').style.paddingTop = "0px";
+	      }
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var day = new Date();
@@ -20508,21 +20516,22 @@
 	        { id: 'main' },
 	        _react2.default.createElement(
 	          'p',
-	          { id: 'loc' },
+	          { id: 'loc', onClick: this.handleLocClick },
 	          this.state.myLocation
 	        ),
-	        _react2.default.createElement(
-	          'textarea',
-	          { rows: '1', cols: '5', id: 'locField', onChange: this.handleLocFieldChange },
-	          this.state.myLocation
-	        ),
+	        _react2.default.createElement('textarea', { maxlength: '5', rows: '1', cols: '5', id: 'locField', defaultValue: this.state.myLocation, onChange: this.handleLocFieldChange }),
 	        _react2.default.createElement('br', null),
 	        _react2.default.createElement('img', { src: 'http://www.hotelesposeidon.com/sites/default/files/sun.png', height: '128', width: '128' }),
 	        _react2.default.createElement(
-	          'p',
-	          { id: 'temptext', onClick: this.TempClick },
-	          this.state.temp,
-	          ' º C'
+	          'div',
+	          { id: 'tempwrapper' },
+	          _react2.default.createElement(
+	            'p',
+	            { id: 'temptext', onClick: this.TempClick },
+	            this.state.temp,
+	            ' º ',
+	            this.state.tempType
+	          )
 	        ),
 	        _react2.default.createElement(
 	          'p',
@@ -20530,20 +20539,6 @@
 	          'refresh'
 	        )
 	      );
-
-	      /*
-	      <table className={mainTheme} width="224px"><tbody>
-	        <tr className={locTheme} id='loc'>{this.state.myLocation}</tr>
-	        <tr><textarea rows="1" cols="5" id="locField" onChange={this.handleLocFieldChange}>{this.state.myLocation}</textarea></tr>
-	        <tr><img src="http://www.hotelesposeidon.com/sites/default/files/sun.png" height="128" width="128"/></tr>
-	        <tr className={tempTheme} onClick={this.TempClick}>{this.state.temp} º C</tr>
-	        <tr className={refreshTheme} id='refresh' onClick={this.getInfo}>refresh</tr>
-	      </tbody></table>
-	      */
-
-	      //<tr><img src="http://www.hotelesposeidon.com/sites/default/files/sun.png" height="128" width="128"/></tr>
-	      //<tr><canvas width="128" height="32"></canvas></tr>
-	      //onClick={this.LocationClick}
 	    }
 	  }]);
 
@@ -20564,23 +20559,6 @@
 	};
 
 	exports.default = Weather;
-
-
-	(0, _jQuery2.default)(document).ready(function () {
-	  (0, _jQuery2.default)('textarea').toggleClass("hiddenThing");
-	  (0, _jQuery2.default)('#loc').click(function () {
-	    (0, _jQuery2.default)('textarea').toggleClass("hiddenThing");
-	  });
-	  (0, _jQuery2.default)('textarea').focus(function () {
-	    (0, _jQuery2.default)('textarea').css('outline-color', 'white');
-	  });
-	  /*$.simpleWeather({
-	    location: 'bangor, maine',
-	    unit: 'f',
-	    success: function(weather) { console.log("you done good") },
-	    error: function(error) { console.log("you done screwed up") }
-	  });*/
-	});
 
 /***/ },
 /* 169 */
