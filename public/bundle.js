@@ -20381,6 +20381,7 @@
 	    // This is Async yo!!! Nysnc is my fav band. Jt rulez!!!
 	    value: function componentDidMount() {
 	      document.getElementById('locField').style.visibility = "hidden";
+	      console.log("DidMount");
 	      this.getInfo();
 	      // request stuffz
 
@@ -20420,12 +20421,16 @@
 	      } else if (myLocation.length === 5) {
 	        document.getElementById('locField').style.visibility = "hidden";
 	        document.getElementById('locField').style.outlineColor = "white";
-	        console.log("HLFC 1-" + myLocation);
+	        console.log("HLFC myLoc-" + myLocation);
 	        _this.setState({
 	          myLocation: myLocation
 	        });
-	        console.log("HLFC 2-" + _this.state.myLocation);
-	        _this.getInfo();
+	        console.log("HLFC myLoc-" + myLocation + " state-" + _this.state.myLocation);
+	        if (_this.state.myLocation === myLocation) {
+	          _this.getInfo();
+	        } else {
+	          console.log("HOW?!?!?!");
+	        }
 	      }
 	    };
 
@@ -20444,7 +20449,6 @@
 	    };
 
 	    _this.getInfo = function () {
-	      // METHOD 1
 	      var resp = 0;
 	      console.log("GI-" + _this.state.myLocation);
 	      _jQuery2.default.ajax({
@@ -20454,16 +20458,129 @@
 	        dataType: 'json',
 	        success: function success(response) {
 	          resp = response;
-	          /*console.log("loc- "+resp.coord.lat);
-	          console.log("WID- "+resp.weather[0].id);
-	          console.log("temp- "+resp.main.temp);
-	          console.log("tempC- "+(Math.trunc(resp.main.temp)-273));
-	          console.log("tempF- "+Math.trunc(((resp.main.temp-273)*1.8)+32));*/
 	        },
-	        error: function error(_error) {
-	          console.log('ERROR:', _error);
+	        error: function error() {
+	          console.log('ERROR');
 	        }
 	      });
+
+	      var day = new Date();
+	      var hours = day.getHours();
+	      //this.state.theme === "day"
+	      var isDay = 6 < hours < 18;
+	      //isDay=false;
+	      if (isDay === true) {
+	        _this.setState({
+	          day: true
+	        });
+	      } else {
+	        _this.setState({
+	          day: false
+	        });
+	      }
+	      var weatherCode = resp.weather[0].id;
+
+	      //weatherCode=901;
+
+	      if (200 <= weatherCode && weatherCode <= 232) {
+	        _this.setState({
+	          imgFile: "http://www.iconsdb.com/icons/preview/white/storm-xxl.png",
+	          weatherText: "Storms"
+	        });
+	      } else if (300 <= weatherCode && weatherCode <= 321) {
+	        _this.setState({
+	          imgFile: "http://www.iconsdb.com/icons/preview/white/little-rain-xxl.png",
+	          weatherText: "Drizzle"
+	        });
+	      } else if (500 <= weatherCode && weatherCode <= 531) {
+	        _this.setState({
+	          imgFile: "http://www.iconsdb.com/icons/preview/white/rain-xxl.png",
+	          weatherText: "Rain"
+	        });
+	      } else if (600 <= weatherCode && weatherCode <= 622) {
+	        _this.setState({
+	          imgFile: "http://www.iconsdb.com/icons/preview/white/snow-xxl.png",
+	          weatherText: "Snow"
+	        });
+	      } else if (weatherCode === 711 || weatherCode === 751 || weatherCode === 761 | weatherCode === 762) {
+	        _this.setState({
+	          imgFile: "http://www.iconsdb.com/icons/preview/white/dust-xxl.png"
+	        });
+	        if (weatherCode === 711) {
+	          _this.setState({
+	            weatherText: "Smoke"
+	          });
+	        } else if (weatherCode === 751) {
+	          _this.setState({
+	            weatherText: "Sand"
+	          });
+	        } else if (weatherCode === 761 || weatherCode === 731) {
+	          _this.setState({
+	            weatherText: "Dust"
+	          });
+	        } else if (weatherCode === 762) {
+	          _this.setState({
+	            weatherText: "Ash"
+	          });
+	        }
+	      } else if (700 <= weatherCode && weatherCode <= 771) {
+	        if (_this.state.day) {
+	          _this.setState({
+	            imgFile: "http://www.iconsdb.com/icons/preview/white/fog-day-xxl.png"
+	          });
+	        } else {
+	          _this.setState({
+	            imgFile: "http://www.iconsdb.com/icons/preview/white/fog-night-xxl.png"
+	          });
+	        }
+	        if (weatherCode === 701) {
+	          _this.setState({
+	            weatherText: "Mist"
+	          });
+	        } else if (weatherCode === 721) {
+	          _this.setState({
+	            weatherText: "Haze"
+	          });
+	        } else if (weatherCode === 741) {
+	          _this.setState({
+	            weatherText: "Fog"
+	          });
+	        }
+	      } else if (weatherCode === 800) {
+	        if (_this.state.day) {
+	          _this.setState({
+	            imgFile: "http://www.iconsdb.com/icons/preview/white/sun-xxl.png",
+	            weatherText: "Clear"
+	          });
+	        } else {
+	          _this.setState({
+	            imgFile: "http://www.iconsdb.com/icons/preview/white/moon-4-xxl.png",
+	            weatherText: "Clear"
+	          });
+	        }
+	      } else if (weatherCode === 801 || weatherCode === 802) {
+	        _this.setState({
+	          imgFile: "http://www.iconsdb.com/icons/preview/white/partly-cloudy-day-xxl.png",
+	          weatherText: "Partly Cloudy"
+	        });
+	      } else if (weatherCode === 803 || weatherCode === 804) {
+	        _this.setState({
+	          imgFile: "http://www.iconsdb.com/icons/preview/white/clouds-xxl.png",
+	          weatherText: "Cloudy"
+	        });
+	      } else if (900 <= weatherCode && weatherCode <= 902 || weatherCode === 781 || weatherCode === 961 || weatherCode === 959 || weatherCode === 958) {
+	        _this.setState({
+	          imgFile: "http://www.iconsdb.com/icons/preview/white/cloud-lighting-xxl.png",
+	          weatherText: "Severe Storm"
+	        });
+	      } else if (weatherCode === 906) {
+	        _this.setState({
+	          imgFile: "http://www.iconsdb.com/icons/preview/white/hail-xxl.png"
+	        });
+	      }
+
+	      console.log("GI 2-" + _this.state.myLocation + " " + _this.state.weatherText);
+
 	      if (_this.state.tempType === "C") {
 	        _this.setState({
 	          temp: Math.trunc(resp.main.temp) - 273
@@ -20476,12 +20593,16 @@
 	      }
 	    };
 
+	    console.log("constructing");
 	    _this.state = {
 	      theme: props.theme,
 	      myLocation: "04469",
 	      temp: 18,
 	      fieldDisplay: "hidden",
-	      tempType: "C"
+	      tempType: "C",
+	      imgFile: "http://www.iconsdb.com/icons/preview/white/dust-xxl.png",
+	      day: "FLAG",
+	      weatherText: "Clear-FLAG"
 	    };
 	    return _this;
 	  }
@@ -20503,14 +20624,6 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var day = new Date();
-	      var hours = day.getHours();
-	      //this.state.theme === "day"
-	      var isNight = hours <= 6 || hours >= 20;
-	      var mainTheme = isNight === true ? (0, _aphrodite.css)(_WeatherStyles2.default.dusk) : (0, _aphrodite.css)(_WeatherStyles2.default.day);
-	      var locTheme = (0, _aphrodite.css)(_WeatherStyles2.default.loc);
-	      var tempTheme = (0, _aphrodite.css)(_WeatherStyles2.default.temp);
-	      var refreshTheme = (0, _aphrodite.css)(_WeatherStyles2.default.refresh);
 	      return _react2.default.createElement(
 	        'div',
 	        { id: 'main' },
@@ -20521,7 +20634,12 @@
 	        ),
 	        _react2.default.createElement('textarea', { maxlength: '5', rows: '1', cols: '5', id: 'locField', defaultValue: this.state.myLocation, onChange: this.handleLocFieldChange }),
 	        _react2.default.createElement('br', null),
-	        _react2.default.createElement('img', { src: 'http://www.hotelesposeidon.com/sites/default/files/sun.png', height: '128', width: '128' }),
+	        _react2.default.createElement('img', { src: this.state.imgFile, height: '128', width: '128' }),
+	        _react2.default.createElement(
+	          'p',
+	          { id: 'weatherText' },
+	          this.state.weatherText
+	        ),
 	        _react2.default.createElement(
 	          'div',
 	          { id: 'tempwrapper' },
@@ -20537,6 +20655,23 @@
 	          'p',
 	          { id: 'refresh', onClick: this.getInfo },
 	          'refresh'
+	        ),
+	        _react2.default.createElement(
+	          'p',
+	          { id: 'credits' },
+	          'powered by ',
+	          _react2.default.createElement(
+	            'a',
+	            { href: 'http://openweathermap.org/', target: '_blank' },
+	            'OpenWeatherMap.org'
+	          ),
+	          _react2.default.createElement('br', null),
+	          'Icons provided by ',
+	          _react2.default.createElement(
+	            'a',
+	            { target: '_blank', href: 'https://icons8.com/' },
+	            'Icons8.com'
+	          )
 	        )
 	      );
 	    }

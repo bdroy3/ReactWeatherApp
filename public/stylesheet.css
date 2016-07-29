@@ -1,33 +1,46 @@
-* {
-  cursor: default;
-}
-
 #loc {
-  cursor: pointer;
   font-size: 40px;
 }
 
-p {
-  margin: 10px;
+p{
+  margin: 5px;
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none;   /* Chrome/Safari/Opera */
   -khtml-user-select: none;    /* Konqueror */
   -moz-user-select: none;      /* Firefox */
   -ms-user-select: none;       /* Internet Explorer/Edge */
+  cursor: pointer;
 }
 
 img {
   margin: 0px;
 }
 
-#refresh {
+a {
+  color: white;
   cursor: pointer;
+}
+
+#refresh {
   font-size: 20px;
+}
+
+#credits {
+  font-size: 5px;
+  margin-top: 10px;
+  cursor: default;
+}
+
+#weatherText {
+  margin-top: 10px;
+  font-size: 25px;
+  cursor: default;
 }
 
 #temptext{
   font-size: 40px;
-  margin-top: 20px;
+  margin-top: 10px;
+  cursor: pointer;
 }
 
 #tempwrapper {
@@ -36,10 +49,10 @@ img {
 }
 
 #main {
+  cursor: default;
   height: auto;
   width: auto;
-  padding-left: 30px;
-  padding-right: 30px;
+  padding: 10px 30px 10px 30px;
   font-size: 10px;
   font-family: Arial Rounded MT Bold;
   text-align: center;
@@ -58,7 +71,8 @@ img {
   border: 2px solid #00afee;
   border-radius: 5px;
   color: white;
-  margin-top: -10px;
+  margin-top:-5px;
+  margin-bottom:5px;
   resize: none;
   outline-color: white;
 }
