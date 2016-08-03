@@ -13,7 +13,7 @@ p{
 }
 
 img {
-  margin: 0px;
+  margin: -5px 0px 5px 0px;
 }
 
 a {
@@ -33,7 +33,7 @@ a {
 
 #weatherText {
   margin-top: 10px;
-  font-size: 25px;
+  font-size: 20px;
   cursor: default;
 }
 
@@ -58,7 +58,7 @@ a {
   text-align: center;
   margin-top: 25px;
   position: fixed;
-  left: 20%;
+  left: 10%;
   background-color: #00bfff;
   border-radius: 10px;
   color: white;
@@ -71,7 +71,7 @@ a {
   border: 2px solid #00afee;
   border-radius: 5px;
   color: white;
-  margin-top:-5px;
+  margin-top:-10px;
   margin-bottom:5px;
   resize: none;
   outline-color: white;
