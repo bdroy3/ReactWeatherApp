@@ -1,15 +1,35 @@
-#loc {
-  font-size: 40px;
-}
-
 p{
   margin: 5px;
+  cursor: pointer;
+  /*so text can't be selected*/
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none;   /* Chrome/Safari/Opera */
   -khtml-user-select: none;    /* Konqueror */
   -moz-user-select: none;      /* Firefox */
   -ms-user-select: none;       /* Internet Explorer/Edge */
-  cursor: pointer;
+}
+
+p:hover {
+  text-shadow: 0 0 20px #e6f9ff;
+}
+
+textarea {
+  font-size: 40px;
+  font-family: Arial Rounded MT Bold;
+  margin-bottom: 20px;
+  background-color: #00bfff;
+  border: none;
+  color: white;
+  resize: none;
+  outline-style: none;
+}
+
+textarea:hover {
+  text-shadow: 0 0 10px #e6f9ff;
+}
+
+textarea:focus {
+  text-shadow: none;
 }
 
 img {
@@ -21,6 +41,10 @@ a {
   cursor: pointer;
 }
 
+#loc {
+  font-size: 40px;
+}
+
 #refresh {
   font-size: 20px;
 }
@@ -29,12 +53,14 @@ a {
   font-size: 5px;
   margin-top: 10px;
   cursor: default;
+  text-shadow: none;
 }
 
 #weatherText {
   margin-top: 10px;
   font-size: 20px;
   cursor: default;
+  text-shadow: none;
 }
 
 #temptext{
@@ -64,17 +90,6 @@ a {
   color: white;
   box-shadow: 10px 10px #0099ff;
   /*box-shadow: 10px 10px #30d8ff;*/
-}
-
-#locField {
-  background-color: #00bfff;
-  border: 2px solid #00afee;
-  border-radius: 5px;
-  color: white;
-  margin-top:-10px;
-  margin-bottom:5px;
-  resize: none;
-  outline-color: white;
 }
 
 #root {
